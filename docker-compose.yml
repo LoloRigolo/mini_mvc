@@ -1,0 +1,27 @@
+services:
+  php:
+    build:
+      context: .
+    ports:
+      - "8101:8101"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - external
+
+  mysql:
+    image: mysql:8.0-oracle
+    container_name: service-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: db
+    networks:
+      - external
+    volumes:
+      - ./docker/mysql/init.sql:/mini_website.sql
+
+networks:
+  external:
+    driver: bridge
